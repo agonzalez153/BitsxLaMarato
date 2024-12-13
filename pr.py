@@ -1,0 +1,1 @@
+print("Tonto el que lo lea\n")
