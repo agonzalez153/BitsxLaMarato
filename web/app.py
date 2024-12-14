@@ -58,8 +58,8 @@ def final_felic():
 
 @app.route('/sospites-grip-covid', methods=['GET', 'POST'])
 def sospites_grip_covid():
+    do_PCR = False
     if request.method == 'POST':
-        global do_PCR
         sospites_grip = request.form.get('sospites_grip') == 'true'
         sospites_covid = request.form.get('sospites_covid') == 'true'
         do_PCR = sospites_grip or sospites_covid
@@ -78,8 +78,8 @@ def micro_anti_hemo_pcr():
 
 @app.route('/dx-pn', methods=['GET', 'POST'])
 def dx_pn():
+    PCR, tmespecific = False, False
     if request.method == 'POST':
-        global PCR, tmespecific
         dx_concret = request.form.get('diagnostic_concretat') == 'true'
         pneumonia = request.form.get('pneumonia') == 'true'
         PCR = request.form.get('pcr_positiva') == 'true'
@@ -97,8 +97,8 @@ def dx_pn():
 
 @app.route('/dx-pn_goc', methods=['GET', 'POST'])
 def dx_pn_goc():
+    PCR, tmespecific = False, False
     if request.method == 'POST':
-        global PCR, tmespecific
         dx_concret = request.form.get('diagnostic_concretat') == 'true'
         pneumonia = request.form.get('pneumonia') == 'true'
         PCR = request.form.get('pcr_positiva') == 'true'
@@ -114,20 +114,20 @@ def dx_pn_goc():
 
 @app.route('/sospites-cmv-pnj', methods=['GET', 'POST'])
 def sospites_cmv_pnj():
+    cmv, pnj = False, False
     if request.method == 'POST':
         sospites_cmv = request.form.get('sospites_cmv') == 'true'
         sospites_pnj = request.form.get('sospites_pnj') == 'true'
         if sospites_cmv:
-            global cmv
             cmv = True
         if sospites_pnj:
-            global pnj
             pnj = True
         return redirect(url_for('tractament'))
     return render_template('sospites-cmv-pnj.html')
 
 @app.route('/sospites-tec', methods=['GET', 'POST'])
 def sospites_tec():
+    tinza, val_parenq = False, False
     if request.method == 'POST':
         sospites_TEC = request.form.get('sospites_tec') == 'true'
         if sospites_TEC:
@@ -137,7 +137,6 @@ def sospites_tec():
 
 @app.route('/angio-ddimer')
 def angio_ddimer():
-    global tinza
     tinza = True
     return render_template('angio-ddimer.html')
 
