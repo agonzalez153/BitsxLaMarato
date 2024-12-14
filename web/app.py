@@ -90,7 +90,7 @@ def dx_pn():
                 return redirect(url_for('tractament'))
             tmespecific = True
             return redirect(url_for('tractament'))
-        return redirect(url_for('sospites_tec'))
+        return redirect(url_for('sospites_tep'))
     if do_PCR:
         return render_template('dx-pn_goc.html')
     return render_template('dx-pn.html')
@@ -109,7 +109,7 @@ def dx_pn_goc():
                 return redirect(url_for('tractament'))
             tmespecific = True
             return redirect(url_for('tractament'))
-        return redirect(url_for('sospites_tec'))
+        return redirect(url_for('sospites_tep'))
     return render_template('dx-pn_goc.html')
 
 @app.route('/sospites-cmv-pnj', methods=['GET', 'POST'])
@@ -125,20 +125,30 @@ def sospites_cmv_pnj():
         return redirect(url_for('tractament'))
     return render_template('sospites-cmv-pnj.html')
 
-@app.route('/sospites-tec', methods=['GET', 'POST'])
-def sospites_tec():
-    tinza, val_parenq = False, False
+@app.route('/sospites-tep', methods=['GET', 'POST'])
+def sospites_tep():
+    val_parenq = False
     if request.method == 'POST':
-        sospites_TEC = request.form.get('sospites_tec') == 'true'
-        if sospites_TEC:
+        sospites_TEP = request.form.get('sospites_tep') == 'true'
+        if sospites_TEP:
             return redirect(url_for('angio_ddimer'))
         return redirect(url_for('val_parenq'))
-    return render_template('sospites-tec.html')
+    return render_template('sospites-tep.html')
 
 @app.route('/angio-ddimer')
 def angio_ddimer():
-    tinza = True
-    return render_template('angio-ddimer.html')
+    return render_template('angio-ddimer.html')    
+
+@app.route('/tep', methods=['GET', 'POST'])
+def tep():
+    tinza, val_parenq = False, False
+    if request.method == 'POST':
+        TEC = request.form.get('tep') == 'true'
+        if TEC:
+            tinza = True
+            return redirect(url_for('tractament'))
+        return redirect(url_for('val_parenq'))
+    return render_template('tep.html')
 
 @app.route('/val-parenq')
 def val_parenq():
