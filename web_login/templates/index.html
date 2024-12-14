@@ -6,6 +6,11 @@
     <title>BitsxLaMarato QR</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <style>
+        body {
+            background-image: url("{{ url_for('static', filename='background.jpg') }}");
+            background-size: cover; /* Ensures the image covers the whole body */
+            /* add other styling as needed */
+        }
         .header {
             position: fixed;
             top: 0;
@@ -110,7 +115,7 @@
     </header>
 
     <div class="welcome-container">
-        <h1 class="welcome-text">Bienvenido</h1>
+        <h1 class="welcome-text">Registra tus síntomas, mejora tu salud</h1>
         <div class="buttons-container">
             <a href="{{ url_for('login') }}" class="auth-button login-btn">Iniciar Sesión</a>
             <a href="{{ url_for('register') }}" class="auth-button register-btn">Registrarse</a>

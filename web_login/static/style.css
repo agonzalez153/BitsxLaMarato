@@ -1,7 +1,7 @@
 /* static/style.css */
 :root {
-    --primary-color: #4CAF50;
-    --secondary-color: #45a049;
+    --primary-color: #42708c;
+    --secondary-color: #a6c6d1;
     --background-color: #f0f2f5;
     --text-color: #333;
 }
@@ -19,6 +19,8 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
+    background-image: url("/background.jpg"); /* Assumed that the image is in the static folder itself */
+    background-size: cover; /* To cover entire page with the image */
 }
 
 .container {

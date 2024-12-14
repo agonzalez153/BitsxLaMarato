@@ -5,11 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a321d75e-f6c7-4a03-b0ed-76617bfda5c3" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/web_login/static/background.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/BitsxLaMarato.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/BitsxLaMarato.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/Login/templates/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/web/Login/templates/login.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/Login/templates/register.html" beforeDir="false" afterPath="$PROJECT_DIR$/web/Login/templates/register.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/Login/web.py" beforeDir="false" afterPath="$PROJECT_DIR$/web/Login/web.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web_login/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/web_login/app.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web_login/static/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/web_login/static/style.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web_login/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/web_login/templates/index.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -21,6 +21,17 @@
       <list>
         <option value="Python Script" />
       </list>
+    </option>
+  </component>
+  <component name="FlaskConsoleOptions" custom-start-script="import sys; print('Python %s on %s' % (sys.version, sys.platform)); sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;from flask.cli import ScriptInfo, NoAppException&#10;for module in [&quot;main.py&quot;, &quot;wsgi.py&quot;, &quot;app.py&quot;]:&#10;    try: locals().update(ScriptInfo(app_import_path=module, create_app=None).load_app().make_shell_context()); print(&quot;\nFlask App: %s&quot; % app.import_name); break&#10;    except NoAppException: pass">
+    <envs>
+      <env key="FLASK_APP" value="app" />
+    </envs>
+    <option name="myCustomStartScript" value="import sys; print('Python %s on %s' % (sys.version, sys.platform)); sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;from flask.cli import ScriptInfo, NoAppException&#10;for module in [&quot;main.py&quot;, &quot;wsgi.py&quot;, &quot;app.py&quot;]:&#10;    try: locals().update(ScriptInfo(app_import_path=module, create_app=None).load_app().make_shell_context()); print(&quot;\nFlask App: %s&quot; % app.import_name); break&#10;    except NoAppException: pass" />
+    <option name="myEnvs">
+      <map>
+        <entry key="FLASK_APP" value="app" />
+      </map>
     </option>
   </component>
   <component name="Git.Settings">
@@ -48,6 +59,7 @@
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
@@ -71,7 +83,8 @@
       <workItem from="1734171898443" duration="1762000" />
       <workItem from="1734175186123" duration="2250000" />
       <workItem from="1734182447213" duration="3910000" />
-      <workItem from="1734189667757" duration="3102000" />
+      <workItem from="1734189667757" duration="4313000" />
+      <workItem from="1734196872548" duration="4375000" />
     </task>
     <servers />
   </component>
