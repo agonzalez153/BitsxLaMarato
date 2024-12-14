@@ -1,17 +1,4 @@
-from flask import Flask, render_template, request, send_file
-import qrcode
-from io import BytesIO
-import os
 
-# Inicializar la aplicación Flask
-app = Flask(__name__)
-
-# Asegurarse de que existe el directorio para las plantillas
-if not os.path.exists('templates'):
-    os.makedirs('templates')
-
-# Crear el archivo HTML si no existe
-html_content = """
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -104,44 +91,3 @@ html_content = """
     </script>
 </body>
 </html>
-"""
-
-with open('templates/index.html', 'w', encoding='utf-8') as f:
-    f.write(html_content)
-
-
-# Ruta principal
-@app.route('/')
-def index():
-    return render_template('index.html')
-
-
-# Ruta para generar el código QR
-@app.route('/generate_qr', methods=['POST'])
-def generate_qr():
-    # Obtener el texto del formulario
-    text = request.form.get('text', '')
-
-    # Crear el código QR
-    qr = qrcode.QRCode(
-        version=1,
-        error_correction=qrcode.constants.ERROR_CORRECT_L,
-        box_size=10,
-        border=4,
-    )
-    qr.add_data(text)
-    qr.make(fit=True)
-
-    # Crear la imagen del código QR
-    img = qr.make_image(fill_color="black", back_color="white")
-
-    # Guardar la imagen en un buffer
-    img_buffer = BytesIO()
-    img.save(img_buffer, format='PNG')
-    img_buffer.seek(0)
-
-    return send_file(img_buffer, mimetype='image/png')
-
-
-if __name__ == '__main__':
-    app.run(debug=True)
