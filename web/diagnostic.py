@@ -13,6 +13,8 @@ hipoTA = False
 tinza = False
 cmv = False
 pnj = False
+pneumonia = False
+TEC = False
 
 TRACTAMENTS = {
     'oxigenoterapia': 'OXIGENOTERAPIA Ajustar FiO2 según requerimientos (SatO2 > 92%)',
@@ -35,8 +37,6 @@ TRACTAMENTS = {
     'ttmespecific': 'Ttm específic',
 }
 
-tractaments_client = []
-
 
 @app.route('/')
 def inici():
@@ -58,6 +58,7 @@ def final_felic():
 
 @app.route('/sospites-grip-covid', methods=['GET', 'POST'])
 def sospites_grip_covid():
+    global do_PCR
     do_PCR = False
     if request.method == 'POST':
         sospites_grip = request.form.get('sospites_grip') == 'true'
@@ -78,7 +79,8 @@ def micro_anti_hemo_pcr():
 
 @app.route('/dx-pn', methods=['GET', 'POST'])
 def dx_pn():
-    PCR, tmespecific = False, False
+    global PCR, tmespecific, pneumonia
+    PCR, tmespecific, pneumonia = False, False, False
     if request.method == 'POST':
         dx_concret = request.form.get('diagnostic_concretat') == 'true'
         pneumonia = request.form.get('pneumonia') == 'true'
@@ -97,6 +99,7 @@ def dx_pn():
 
 @app.route('/dx-pn_goc', methods=['GET', 'POST'])
 def dx_pn_goc():
+    global PCR, tmespecific
     PCR, tmespecific = False, False
     if request.method == 'POST':
         dx_concret = request.form.get('diagnostic_concretat') == 'true'
@@ -114,6 +117,7 @@ def dx_pn_goc():
 
 @app.route('/sospites-cmv-pnj', methods=['GET', 'POST'])
 def sospites_cmv_pnj():
+    global cmv, pnj
     cmv, pnj = False, False
     if request.method == 'POST':
         sospites_cmv = request.form.get('sospites_cmv') == 'true'
@@ -127,6 +131,7 @@ def sospites_cmv_pnj():
 
 @app.route('/sospites-tep', methods=['GET', 'POST'])
 def sospites_tep():
+    global val_parenq
     val_parenq = False
     if request.method == 'POST':
         sospites_TEP = request.form.get('sospites_tep') == 'true'
@@ -141,38 +146,42 @@ def angio_ddimer():
 
 @app.route('/tep', methods=['GET', 'POST'])
 def tep():
+    global tinza, val_parenq, TEC
     tinza, val_parenq = False, False
     if request.method == 'POST':
         TEC = request.form.get('tep') == 'true'
         if TEC:
-            tinza = True
+            tec = True
             return redirect(url_for('tractament'))
         return redirect(url_for('val_parenq'))
     return render_template('tep.html')
 
 @app.route('/val-parenq')
 def val_parenq():
+    global tmespecific
     tmespecific = True
     return render_template('val-parenq.html')
 
 @app.route('/tractament')
 def tractament():
     tractaments_client = []
-    if not immunosuprimit:
-        tractaments_client.extend(['oseltamivir', 'cefalosporina', 'levofloxacino'])
+    if pneumonia:
+        if not immunosuprimit:
+            tractaments_client.extend(['oseltamivir', 'cefalosporina', 'levofloxacino'])
+        else:
+            tractaments_client.extend(['piperacilina', 'levofloxacino'])
+            if cmv:
+                tractaments_client.extend(['ganciclovir'])
+            if pnj:
+                tractaments_client.extend(['sulfametoxazol','ac_folic'])
+    if not TEC:
+        tractaments_client.extend(['oxigenoterapia','inhibidor_bomba_protons','acetilcisteina','morfina','hbpm_bemi','metilprednis'])
+        if fumador and not hipertensio_pulmonar:
+            tractaments_client.append(['nebulitacions'])
+        if sospites_epital and not hipoTA:
+            tractaments_client.append(['losartan'])
     else:
-        tractaments_client.extend(['piperacilina', 'levofloxacino'])
-        if tinza:
-            tractaments_client.extend(['hbpm_tinza'])
-        if cmv:
-            tractaments_client.extend(['ganciclovir'])
-    if pnj:
-        tractaments_client.extend(['sulfametoxazol','ac_folic'])
-    tractaments_client.extend(['oxigenoterapia','inhibidor_bomba_protons','acetilcisteina','morfina','hbpm_bemi','metilprednis'])
-    if fumador and not hipertensio_pulmonar:
-        tractaments_client.append(['nebulitacions'])
-    if sospites_epital and not hipoTA:
-        tractaments_client.append(['losartan'])
+        tractaments_client.extend(['hbpm_tinza'])
     return render_template('tractament.html', tractaments_client=tractaments_client, TRACTAMENTS=TRACTAMENTS)
 
 if __name__ == '__main__':
