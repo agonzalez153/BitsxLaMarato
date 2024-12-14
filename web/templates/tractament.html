@@ -1,3 +1,31 @@
+<<<<<<< HEAD
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>BitsxLaMarato QR - Tratamiento</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center">
+    <div class="container mx-auto p-6 bg-white rounded-lg shadow-lg max-w-xl">
+        <div class="flex items-center mb-6">
+            <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" class="w-16 h-16 mr-4">
+            <h1 class="text-3xl font-bold text-gray-800">BitsxLaMarato QR</h1>
+        </div>
+
+        <div class="mb-6">
+            <h2 class="text-xl mb-4">Tractament Recomenat</h2>
+            <ul class="list-disc pl-6">
+                {% for tractaments_client in tractaments_client %}
+                <li>{{ TRACTAMENTS[tractaments_client] }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
+
+=======
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -24,3 +52,4 @@
 </body>
 </html>
 
+>>>>>>> 67a0592fb0492718b626124f4364b826e094f495
