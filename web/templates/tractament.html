@@ -15,12 +15,11 @@
         <div class="mb-6">
             <h2 class="text-xl mb-4">Tractament Recomenat</h2>
             <ul class="list-disc pl-6">
-                {% for tratamiento in tratamiento %}
-                <li>{{ TRATAMIENTOS[tratamiento] }}</li>
+                {% for tractaments_client in tractaments_client %}
+                <li>{{ TRACTAMENTS[tractaments_client] }}</li>
                 {% endfor %}
             </ul>
         </div>
     </div>
 </body>
 </html>
-

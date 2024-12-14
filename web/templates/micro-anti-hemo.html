@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>BitsxLaMarato QR - Diagnóstico y Tratamiento</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center">
+    <div class="container mx-auto p-6 bg-white rounded-lg shadow-lg max-w-xl">
+        <div class="flex items-center mb-6">
+            <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" class="w-16 h-16 mr-4">
+            <h1 class="text-3xl font-bold text-gray-800">BitsxLaMarato QR</h1>
+        </div>
+
+        <div class="mb-6">
+            <h2 class="text-xl mb-4">S'han de realitzar els següents tractaments:</h2>
+            <p>MICRO: Esput (gram i cultiu convencional, fongs/micobacteris)</p>
+            <p>Antigenúria (pneumococ/legionella)</p>
+            <p>2 Hemocultius</p>
+            <a href="{{ url_for('dx_pn') }}" class="block mt-4 bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">
+                Siguiente
+            </a>
+        </div>
+    </div>
+</body>
+</html>
