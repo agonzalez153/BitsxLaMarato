@@ -58,6 +58,10 @@ def register():
 def profile():
     return render_template("profile.html")
 
+# Ruta para la página principal
+@app.route('/')
+def index():
+    return render_template('index.html')
 
 @app.route('/logout')
 def logout():

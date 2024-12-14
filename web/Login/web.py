@@ -35,7 +35,7 @@ def login():
             login_user(user)
             return redirect(url_for('profile'))
         else:
-            flash('Login Unsuccessful. Please check email and password', 'danger')
+            flash('Email o contraseña incorrectos, por favor, revíselos.', 'danger')
     return render_template('login.html')
 
 
@@ -46,10 +46,10 @@ def register():
         password = request.form.get('password')
         response = supabase.auth.sign_up({"email": email, "password": password})
         if response.user:
-            flash('Your account has been created! You are now able to log in', 'success')
+            flash('¡Tu cuenta ha sido logeada correctamente!', 'success')
             return redirect(url_for('login'))
         else:
-            flash('Registration Unsuccessful. Please check your details', 'danger')
+            flash('Error de registro, por favor, comprueba todos los datos.', 'danger')
     return render_template('register.html')
 
 
