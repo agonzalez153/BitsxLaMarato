@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Patient QR System</title>
+    <script src="https://cdn.jsdelivr.net/npm/qr-scanner"></script>
+</head>
+<body>
+    <div>
+        <h2>Generate QR</h2>
+        <input type="number" id="patientId" placeholder="Patient ID">
+        <button onclick="generateQR()">Generate QR</button>
+        <div id="qrResult"></div>
+    </div>
+
+    <div>
+        <h2>Scan QR</h2>
+        <video id="qrScanner"></video>
+        <div id="scanResult"></div>
+    </div>
+
+    <script>
+        async function generateQR() {
+            const patientId = document.getElementById('patientId').value;
+            const response = await fetch(`/generate_qr/${patientId}`);
+            const data = await response.json();
+            if (data.status === 'success') {
+                document.getElementById('qrResult').innerHTML = 
+                    `<img src="${data.qr_image}" alt="QR Code">`;
+            }
+        }
+
+        // Initialize QR scanner
+        const qrScanner = new QrScanner(
+            document.getElementById('qrScanner'),
+            async result => {
+                const response = await fetch('/verify_qr', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({qr_code: result})
+                });
+                const data = await response.json();
+                document.getElementById('scanResult').textContent = 
+                    JSON.stringify(data.patient_data, null, 2);
+            }
+        );
+        qrScanner.start();
+    </script>
+</body>
+</html>
