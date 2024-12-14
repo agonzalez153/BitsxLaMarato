@@ -3,21 +3,16 @@ import qrcode
 from io import BytesIO
 import os
 
-# Inicializar la aplicación Flask
 app = Flask(__name__)
 
-# Asegurarse de que existe el directorio para las plantillas
-if not os.path.exists('templates'):
-    os.makedirs('templates')
-
-# Crear el archivo HTML si no existe
+# Contenido HTML actualizado con textarea en lugar de input
 html_content = """
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Generador de Códigos QR</title>
+    <title>Generador de Códigos QR - Texto Multilínea</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -39,12 +34,20 @@ html_content = """
         .form-group {
             margin-bottom: 20px;
         }
-        input[type="text"] {
+        textarea {
             width: 100%;
             padding: 10px;
             border: 1px solid #ddd;
             border-radius: 5px;
             font-size: 16px;
+            min-height: 150px;
+            resize: vertical;
+            font-family: Arial, sans-serif;
+        }
+        .controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
         }
         button {
             background-color: #1a73e8;
@@ -54,7 +57,7 @@ html_content = """
             border-radius: 5px;
             cursor: pointer;
             font-size: 16px;
-            width: 100%;
+            flex: 1;
         }
         button:hover {
             background-color: #1557b0;
@@ -67,19 +70,86 @@ html_content = """
             max-width: 300px;
             margin-top: 20px;
         }
+        .format-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        .format-button {
+            background-color: #f8f9fa;
+            border: 1px solid #ddd;
+            color: #333;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+        .format-button:hover {
+            background-color: #e9ecef;
+        }
+        #previewText {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            white-space: pre-wrap;
+            display: none;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Generador de Códigos QR</h1>
-        <div class="form-group">
-            <input type="text" id="text" placeholder="Ingrese el texto para el código QR">
+        <div class="format-buttons">
+            <button class="format-button" onclick="insertFormat('**texto**')">Negrita</button>
+            <button class="format-button" onclick="insertFormat('_texto_')">Cursiva</button>
+            <button class="format-button" onclick="insertFormat('* ')">Lista</button>
         </div>
-        <button onclick="generateQR()">Generar QR</button>
+        <div class="form-group">
+            <textarea id="text" placeholder="Ingrese el texto para el código QR (puede usar múltiples líneas)"></textarea>
+        </div>
+        <div class="controls">
+            <button onclick="generateQR()">Generar QR</button>
+            <button onclick="previewText()" style="background-color: #34a853;">Vista Previa</button>
+        </div>
+        <div id="previewText"></div>
         <div id="qrResult"></div>
     </div>
 
     <script>
+        function insertFormat(format) {
+            const textarea = document.getElementById('text');
+            const start = textarea.selectionStart;
+            const end = textarea.selectionEnd;
+            const text = textarea.value;
+
+            const beforeText = text.substring(0, start);
+            const selectedText = text.substring(start, end);
+            const afterText = text.substring(end);
+
+            if (format === '* ') {
+                // Para listas, insertar al inicio de la línea
+                textarea.value = beforeText + format + selectedText + afterText;
+            } else {
+                // Para otros formatos, envolver el texto seleccionado
+                const formattedText = format.replace('texto', selectedText || 'texto');
+                textarea.value = beforeText + formattedText + afterText;
+            }
+        }
+
+        function previewText() {
+            const text = document.getElementById('text').value;
+            const previewDiv = document.getElementById('previewText');
+
+            // Convertir el texto plano a HTML
+            let htmlText = text
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                .replace(/_(.*?)_/g, '<em>$1</em>')
+                .replace(/^\* (.*)$/gm, '•&nbsp;$1')
+                .replace(/\n/g, '<br>');
+
+            previewDiv.innerHTML = htmlText;
+            previewDiv.style.display = htmlText ? 'block' : 'none';
+        }
+
         function generateQR() {
             const text = document.getElementById('text').value;
             if (text) {
@@ -110,19 +180,15 @@ with open('templates/index.html', 'w', encoding='utf-8') as f:
     f.write(html_content)
 
 
-# Ruta principal
 @app.route('/')
 def index():
     return render_template('index.html')
 
 
-# Ruta para generar el código QR
 @app.route('/generate_qr', methods=['POST'])
 def generate_qr():
-    # Obtener el texto del formulario
     text = request.form.get('text', '')
 
-    # Crear el código QR
     qr = qrcode.QRCode(
         version=1,
         error_correction=qrcode.constants.ERROR_CORRECT_L,
@@ -132,10 +198,8 @@ def generate_qr():
     qr.add_data(text)
     qr.make(fit=True)
 
-    # Crear la imagen del código QR
     img = qr.make_image(fill_color="black", back_color="white")
 
-    # Guardar la imagen en un buffer
     img_buffer = BytesIO()
     img.save(img_buffer, format='PNG')
     img_buffer.seek(0)
