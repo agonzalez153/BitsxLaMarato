@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>BitsxLaMarato QR - Diagnóstico de Síntomas</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center">
+    <div class="container mx-auto p-6 bg-white rounded-lg shadow-lg max-w-xl">
+        <div class="flex items-center mb-6">
+            <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" class="w-16 h-16 mr-4">
+            <h1 class="text-3xl font-bold text-gray-800">BitsxLaMarato QR</h1>
+        </div>
+
+        <div class="mb-6">
+            <h2 class="text-xl mb-4">Selecciona tus síntomas:</h2>
+            <div id="sintomas-container" class="grid grid-cols-3 gap-3">
+                {% for sintoma in sintomas %}
+                <div>
+                    <label class="inline-flex items-center">
+                        <input type="checkbox"
+                               name="sintoma"
+                               value="{{ sintoma }}"
+                               class="form-checkbox h-5 w-5 text-blue-600">
+                        <span class="ml-2">{{ sintoma.replace('_', ' ').capitalize() }}</span>
+                    </label>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <button id="diagnosticar-btn" class="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600">
+            Diagnosticar
+        </button>
+
+        <div id="resultado" class="mt-6 p-4 bg-gray-100 rounded"></div>
+    </div>
+
+    <script>
+        document.getElementById('diagnosticar-btn').addEventListener('click', function() {
+            const sintomas = Array.from(document.querySelectorAll('input[name="sintoma"]:checked'))
+                .map(checkbox => checkbox.value);
+
+            axios.post('/diagnosticar', { sintomas })
+                .then(response => {
+                    const resultadoDiv = document.getElementById('resultado');
+                    resultadoDiv.innerHTML = '';
+
+                    if (response.data.length > 0) {
+                        let html = '<h3 class="text-lg font-bold mb-2">Posibles diagnósticos:</h3>';
+                        response.data.forEach(enfermedad => {
+                            html += `<p>- ${enfermedad.nombre.charAt(0).toUpperCase() + enfermedad.nombre.slice(1)} (${enfermedad.coincidencias} síntoma(s) coincidentes)</p>`;
+                        });
+                        resultadoDiv.innerHTML = html;
+                    } else {
+                        resultadoDiv.innerHTML = '<p>No se encontraron diagnósticos coincidentes.</p>';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        });
+    </script>
+</body>
+</html>
