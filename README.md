@@ -4,11 +4,16 @@ BitsxLaMarato es una aplicación web diseñada para gestionar información médi
 Características principales
 
 Acceso mediante QR persistente: Proporciona a los profesionales médicos un acceso seguro y ágil a la información del paciente.
+
 Gestión centralizada de datos: Permite almacenar y actualizar datos clínicos en tiempo real.
+
 Sugerencias terapéuticas automatizadas: Integra algoritmos para generar recomendaciones de tratamiento basadas en los resultados cargados.
+
 Enfoque en emergencias: Diseñada para situaciones críticas donde la rapidez en el acceso a la información es esencial.
+
 
 Tecnologías utilizadas
 
 Lenguaje de programación: Python
+
 Sistema de gestión de bases de datos: Supabase
